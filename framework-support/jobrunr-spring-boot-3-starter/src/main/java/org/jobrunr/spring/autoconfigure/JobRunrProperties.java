@@ -229,6 +229,8 @@ public class JobRunrProperties {
          * Allows to set the name of the {@link org.jobrunr.server.BackgroundJobServer} (used in the dashboard).
          */
         private String name;
+        
+        private String tenant;
 
         /**
          * Enables the background processing of jobs.
@@ -287,6 +289,14 @@ public class JobRunrProperties {
         public void setName(String name) {
             this.name = name;
         }
+        
+        public String getTenant() {
+			return tenant;
+		}
+        
+        public void setTenant(String tenant) {
+			this.tenant = tenant;
+		}
 
         public boolean isEnabled() {
             return enabled;

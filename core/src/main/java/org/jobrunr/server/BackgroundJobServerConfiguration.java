@@ -26,6 +26,7 @@ public class BackgroundJobServerConfiguration {
     private int pollIntervalInSeconds = DEFAULT_POLL_INTERVAL_IN_SECONDS;
     private UUID id = UUID.randomUUID();
     private String name = getHostName();
+    private String tenant = null;
     private Duration deleteSucceededJobsAfter = DEFAULT_DELETE_SUCCEEDED_JOBS_DURATION;
     private Duration permanentlyDeleteDeletedJobsAfter = DEFAULT_PERMANENTLY_DELETE_JOBS_DURATION;
     private BackgroundJobServerWorkerPolicy backgroundJobServerWorkerPolicy = new DefaultBackgroundJobServerWorkerPolicy();
@@ -66,6 +67,13 @@ public class BackgroundJobServerConfiguration {
         if (isNullOrEmpty(name)) throw new IllegalArgumentException("The name can not be null or empty");
         if (name.length() >= 128) throw new IllegalArgumentException("The length of the name can not exceed 128 characters");
         this.name = name;
+        return this;
+    }
+    
+    public BackgroundJobServerConfiguration andTenant(String tenant) {
+        if (isNullOrEmpty(tenant)) throw new IllegalArgumentException("The tenant can not be null or empty");
+        if (tenant.length() >= 128) throw new IllegalArgumentException("The length of the tenant can not exceed 128 characters");
+        this.tenant = tenant;
         return this;
     }
 
@@ -181,6 +189,10 @@ public class BackgroundJobServerConfiguration {
     public String getName() {
         return name;
     }
+    
+    public String getTenant() {
+		return tenant;
+	}
 
     public int getScheduledJobsRequestSize() {
         return scheduledJobsRequestSize;

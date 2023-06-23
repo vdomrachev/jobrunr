@@ -54,6 +54,11 @@ public class JobTable extends Sql<Job> {
         with(FIELD_STATE, state);
         return this;
     }
+    
+    public JobTable withTenant(String tenant) {
+        with(FIELD_TENANT, tenant);
+        return this;
+    }    
 
     public JobTable withScheduledAt(Instant scheduledBefore) {
         with(FIELD_SCHEDULED_AT, scheduledBefore);
@@ -117,6 +122,14 @@ public class JobTable extends Sql<Job> {
                 .collect(toList());
     }
 
+    public List<Job> selectJobsByTenantAndState(String tenant, StateName state, PageRequest pageRequest) {
+        return withState(state)
+        		.withTenant(tenant)
+                .withOrderLimitAndOffset(pageRequestMapper.map(pageRequest), pageRequest.getLimit(), pageRequest.getOffset())
+                .selectJobs("jobAsJson from jobrunr_jobs where state = :state and tenant = :tenant")
+                .collect(toList());
+    }
+    
     public List<Job> selectJobsByState(StateName state, Instant updatedBefore, PageRequest pageRequest) {
         return withState(state)
                 .withUpdatedBefore(updatedBefore)
@@ -169,7 +182,7 @@ public class JobTable extends Sql<Job> {
     }
 
     void insertOneJob(Job jobToSave) throws SQLException {
-        insert(jobToSave, "into jobrunr_jobs values (:id, :version, :jobAsJson, :jobSignature, :state, :createdAt, :updatedAt, :scheduledAt, :recurringJobId)");
+        insert(jobToSave, "into jobrunr_jobs values (:id, :version, :jobAsJson, :jobSignature, :state, :tenant, :createdAt, :updatedAt, :scheduledAt, :recurringJobId)");
     }
 
     void updateOneJob(Job jobToSave) throws SQLException {

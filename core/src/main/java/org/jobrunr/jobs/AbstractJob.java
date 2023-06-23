@@ -19,6 +19,7 @@ public abstract class AbstractJob implements Lockable {
     private volatile int version;
     private String jobSignature;
     private String jobName;
+    private String tenant;
     private Integer amountOfRetries;
     private HashSet<String> labels;
     private JobDetails jobDetails;
@@ -70,6 +71,14 @@ public abstract class AbstractJob implements Lockable {
     public void setJobName(String jobName) {
         this.jobName = jobName;
     }
+    
+    public String getTenant() {
+		return tenant;
+	}
+    
+    public void setTenant(String tenant) {
+		this.tenant = tenant;
+	}
 
     public Integer getAmountOfRetries() {
         return amountOfRetries;

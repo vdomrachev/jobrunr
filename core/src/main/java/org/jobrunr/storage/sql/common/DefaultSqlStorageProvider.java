@@ -223,6 +223,15 @@ public class DefaultSqlStorageProvider extends AbstractStorageProvider implement
         }
 
     }
+    
+    @Override
+    public List<Job> getJobs(String tenant, StateName state, PageRequest pageRequest) {
+        try (final Connection conn = dataSource.getConnection()) {
+            return jobTable(conn).selectJobsByTenantAndState(tenant, state, pageRequest);
+        } catch (SQLException e) {
+            throw new StorageException(e);
+        }
+    }
 
     @Override
     public List<Job> getJobs(StateName state, Instant updatedBefore, PageRequest pageRequest) {

@@ -52,6 +52,8 @@ public @interface Job {
      * @return the name of the job.
      */
     String name() default "";
+    
+    String tenant() default "";
 
     int retries() default NBR_OF_RETRIES_NOT_PROVIDED;
 

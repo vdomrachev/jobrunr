@@ -28,6 +28,7 @@ public class DefaultJobFilter implements JobClientFilter {
         setJobName(job, jobAnnotation);
         setAmountOfRetries(job, jobAnnotation);
         setLabels(job, jobAnnotation);
+        setTenant(job, jobAnnotation);
     }
 
     @Override
@@ -41,6 +42,13 @@ public class DefaultJobFilter implements JobClientFilter {
             job.setJobName(resolveParameters(jobNameFromAnnotation.get(), job));
         } else if (job.getJobName() == null) {
             job.setJobName(getReadableNameFromJobDetails(job.getJobDetails()));
+        }
+    }
+    
+    private void setTenant(AbstractJob job, Optional<Job> jobAnnotation) {
+        Optional<String> tenantFromAnnotation = getFromAnnotation(jobAnnotation, Job::tenant);
+        if (tenantFromAnnotation.isPresent()) {
+            job.setTenant(resolveParameters(tenantFromAnnotation.get(), job));
         }
     }
 

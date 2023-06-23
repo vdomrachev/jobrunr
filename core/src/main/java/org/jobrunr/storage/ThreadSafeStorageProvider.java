@@ -139,6 +139,11 @@ public class ThreadSafeStorageProvider implements StorageProvider {
     }
 
     @Override
+    public List<Job> getJobs(String tenant, StateName state, PageRequest pageRequest) {
+    	return storageProvider.getJobs(tenant, state, pageRequest);
+    }
+
+    @Override
     public Page<Job> getJobPage(StateName state, PageRequest pageRequest) {
         return storageProvider.getJobPage(state, pageRequest);
     }

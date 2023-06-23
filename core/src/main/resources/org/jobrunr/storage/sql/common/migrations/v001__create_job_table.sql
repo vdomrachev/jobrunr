@@ -5,11 +5,13 @@ CREATE TABLE jobrunr_jobs
     jobAsJson    text         NOT NULL,
     jobSignature VARCHAR(512) NOT NULL,
     state        VARCHAR(36)  NOT NULL,
+    tenant       VARCHAR(36)  NOT NULL,
     createdAt    TIMESTAMP    NOT NULL,
     updatedAt    TIMESTAMP    NOT NULL,
     scheduledAt  TIMESTAMP
 );
 CREATE INDEX jobrunr_state_idx ON jobrunr_jobs (state);
+CREATE INDEX jobrunr_tenant_idx ON jobrunr_jobs (tenant);
 CREATE INDEX jobrunr_job_signature_idx ON jobrunr_jobs (jobSignature);
 CREATE INDEX jobrunr_job_created_at_idx ON jobrunr_jobs (createdAt);
 CREATE INDEX jobrunr_job_updated_at_idx ON jobrunr_jobs (updatedAt);

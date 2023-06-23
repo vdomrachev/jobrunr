@@ -119,6 +119,10 @@ public interface StorageProvider extends AutoCloseable {
 
     List<Job> getJobs(StateName state, PageRequest pageRequest);
 
+    default List<Job> getJobs(String tenant, StateName state, PageRequest pageRequest) {
+    	return getJobs(state, pageRequest);
+    }
+    
     Page<Job> getJobPage(StateName state, PageRequest pageRequest);
 
     /**
